@@ -11,7 +11,7 @@ $is_admin = isset($_SESSION['jabatan']) && $_SESSION['jabatan'] === 'Administrat
                 <i class="fas fa-book-open text-white"></i>
             </div>
             <div>
-                <h1 class="font-bold text-lg text-gray-900">Persma Library</h1>
+                <h1 class="font-bold text-lg text-gray-900">LPM Progress</h1>
                 <p class="text-sm text-gray-500">Digital Book Management</p>
             </div>
         </div>
