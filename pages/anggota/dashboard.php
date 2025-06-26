@@ -56,7 +56,24 @@ $query = "SELECT * FROM buku WHERE status = 'tersedia' ORDER BY id_buku DESC LIM
 $stmt = $db->prepare($query);
 $stmt->execute();
 $recent_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// ✅ Tambahkan ini: QUERY BUKU PALING POPULER
+$query = "
+    SELECT b.judul, b.pengarang, COUNT(p.id_peminjaman) AS total_pinjam
+    FROM peminjaman p
+    JOIN buku b ON p.id_buku = b.id_buku
+    WHERE b.aktif = 1
+    GROUP BY p.id_buku
+    ORDER BY total_pinjam DESC
+    LIMIT 3
+";
+
+$stmt = $db->prepare($query);
+$stmt->execute();
+$popular_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
+
 
 <div class="flex h-screen bg-gray-50">
     <?php include '../../includes/sidebar.php'; ?>
@@ -115,7 +132,7 @@ $recent_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <p class="text-sm text-gray-500">Buku dapat dipinjam</p>
                         </div>
                         <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-search text-white"></i>
+                            <i class="fas fa-inbox text-white"></i>
                         </div>
                     </div>
                 </div>
@@ -158,10 +175,11 @@ $recent_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                                     <i class="fas fa-book text-gray-400"></i>
                                 </div>
-                                <p class="text-gray-500">Belum ada buku yang dipinjam</p>
-                                <a href="katalog.php" class="mt-3 inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
-                                    Jelajahi Katalog
-                                </a>
+                              <p class="text-gray-500">Belum ada buku yang dipinjam</p>
+<a href="katalog.php" class="mt-3 inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
+    Kunjungi Katalog Buku
+</a>
+
                             </div>
                         <?php endif; ?>
                     </div>
@@ -197,30 +215,27 @@ $recent_books = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="bg-white rounded-lg shadow">
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Aksi Cepat</h3>
-                    <p class="text-gray-600 mb-4">Akses fitur utama dengan mudah</p>
-                    
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <a href="katalog.php" class="p-4 bg-green-50 hover:bg-green-100 rounded-lg border border-green-200 transition-colors text-center">
-                            <i class="fas fa-search text-green-600 text-2xl mb-2"></i>
-                            <p class="text-sm font-medium text-green-800">Cari Buku</p>
-                        </a>
-                        <a href="katalog.php" class="p-4 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors text-center">
-                            <i class="fas fa-book text-blue-600 text-2xl mb-2"></i>
-                            <p class="text-sm font-medium text-blue-800">Katalog</p>
-                        </a>
-                        <a href="riwayat.php" class="p-4 bg-orange-50 hover:bg-orange-100 rounded-lg border border-orange-200 transition-colors text-center">
-                            <i class="fas fa-history text-orange-600 text-2xl mb-2"></i>
-                            <p class="text-sm font-medium text-orange-800">Riwayat</p>
-                        </a>
+           <!-- Buku Paling Populer -->
+<div class="bg-white rounded-lg shadow">
+    <div class="p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Buku Paling Populer</h3>
+        <p class="text-gray-600 mb-4">Dipinjam paling banyak oleh anggota</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <?php foreach ($popular_books as $book): ?>
+                <div class="p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-book text-blue-600 text-xl"></i>
                     </div>
+                    <p class="text-sm font-semibold text-gray-800"><?php echo htmlspecialchars($book['judul']); ?></p>
+                    <p class="text-xs text-gray-500">
+                        <?php echo htmlspecialchars($book['pengarang']); ?> • <?php echo $book['total_pinjam']; ?>x dipinjam
+                    </p>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </div>
-    </main>
+    </div>
 </div>
+
 
 <?php include '../../includes/footer.php'; ?>

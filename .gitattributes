@@ -1,0 +1,24 @@
+# Atur semua file teks agar Git gunakan LF sebagai EOL
+* text=auto eol=lf
+
+# File PHP
+*.php text eol=lf
+
+# File HTML dan CSS
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+
+# File konfigurasi
+*.json text eol=lf
+*.xml text eol=lf
+*.env text eol=lf
+*.sql text eol=lf
+
+# Dokumentasi
+*.md text eol=lf
+*.txt text eol=lf
+
+# Khusus Windows: Cegah file .bat dan .cmd rusak
+*.bat text eol=crlf
+*.cmd text eol=crlf

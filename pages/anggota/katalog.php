@@ -76,7 +76,7 @@ $categories = [
 ];
 
 // Build query
-$query = "SELECT * FROM buku WHERE 1=1";
+$query = "SELECT * FROM buku WHERE aktif = 1";
 $params = [];
 
 if (!empty($search)) {

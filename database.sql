@@ -61,7 +61,7 @@ INSERT INTO jabatan (nama_jabatan) VALUES
 
 -- Insert data user demo
 INSERT INTO user (nama, username, password, jabatan_id, divisi, angkatan, no_wa) VALUES
-('Administrator Persma', 'admin', 'admin123', 1, 'Pengurus Inti', '2022', '081234567890'),
+('Administrator', 'admin', 'admin123', 1, 'Pengurus Inti', '2022', '081234567890'),
 ('Anggota Persma', 'anggota', 'anggota123', 2, 'Anggota Biasa', '2023', '081234567891');
 
 -- Insert data buku demo

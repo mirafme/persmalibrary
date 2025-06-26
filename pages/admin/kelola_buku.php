@@ -13,6 +13,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['jabatan'] !== 'Administrator') {
 $database = new Database();
 $db = $database->getConnection();
 
+// ✅ Tambahkan array kategori setelah koneksi database
+$kategori_list = [
+    'Fiksi',
+    'Non-Fiksi',
+    'Pendidikan',
+    'Teknologi/Komputer',
+    'Agama',
+    'Kesehatan',
+    'Psikologi',
+    'Hukum & Politik',
+    'Ekonomi & Bisnis',
+    'Anak-anak',
+    'Seni & Desain',
+    'Sastra'
+];
+
 $message = '';
 $error = '';
 
@@ -164,9 +180,17 @@ if (isset($_GET['edit'])) {
                         
                         <div>
                             <label for="kategori" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                            <input type="text" id="kategori" name="kategori" required 
-                                   value="<?php echo $edit_book ? htmlspecialchars($edit_book['kategori']) : ''; ?>"
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+<select id="kategori" name="kategori" required 
+        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+    <option value="">-- Pilih Kategori --</option>
+    <?php foreach ($kategori_list as $kategori): ?>
+        <option value="<?php echo $kategori; ?>" 
+            <?php echo ($edit_book && $edit_book['kategori'] === $kategori) ? 'selected' : ''; ?>>
+            <?php echo $kategori; ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+
                         </div>
                         
                         <?php if ($edit_book): ?>

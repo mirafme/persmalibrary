@@ -48,74 +48,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-        <div>
-            <div class="mx-auto h-12 w-12 bg-green-600 rounded-lg flex items-center justify-center">
-                <i class="fas fa-book-open text-white text-xl"></i>
-            </div>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Masuk ke Persma Library
-            </h2>
-            <p class="mt-2 text-center text-sm text-gray-600">
-                Sistem Informasi Perpustakaan Digital UKM Persma
-            </p>
-        </div>
-        
-        <form class="mt-8 space-y-6" method="POST">
-            <?php if ($error): ?>
-                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative">
-                    <?php echo $error; ?>
-                </div>
-            <?php endif; ?>
-            
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="username" class="sr-only">Username</label>
-                    <input id="username" name="username" type="text" required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" 
-                           placeholder="Username">
-                </div>
-                <div>
-                    <label for="password" class="sr-only">Password</label>
-                    <input id="password" name="password" type="password" required 
-                           class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" 
-                           placeholder="Password">
-                </div>
-            </div>
-
-            <div>
-                <button type="submit" 
-                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                        <i class="fas fa-lock text-green-500 group-hover:text-green-400"></i>
-                    </span>
-                    Masuk
-                </button>
-            </div>
-        </form>
-        
-        <div class="mt-6">
-            <div class="relative">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-gray-300" />
-                </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="px-2 bg-gray-50 text-gray-500">Demo Login</span>
-                </div>
-            </div>
-            <div class="mt-3 grid grid-cols-2 gap-3">
-                <div class="text-center p-2 bg-blue-50 rounded-md">
-                    <p class="text-xs text-blue-600 font-medium">Admin</p>
-                    <p class="text-xs text-blue-500">admin / admin123</p>
-                </div>
-                <div class="text-center p-2 bg-green-50 rounded-md">
-                    <p class="text-xs text-green-600 font-medium">Anggota</p>
-                    <p class="text-xs text-green-500">anggota / anggota123</p>
-                </div>
-            </div>
-        </div>
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+  <div class="max-w-md w-full bg-white p-8 rounded-lg shadow">
+    
+    <!-- LOGO -->
+    <div class="w-14 h-14 mx-auto bg-green-600 rounded-lg flex items-center justify-center mb-4">
+      <i class="fas fa-book-open text-white text-2xl"></i>
     </div>
+    
+    <!-- JUDUL -->
+    <div class="text-center mb-6">
+      <h1 class="text-3xl font-bold text-gray-900">Sistem Perpustakaan</h1>
+      <p class="text-sm text-gray-600 mt-2">Masuk ke akun anda untuk melanjutkan</p>
+    </div>
+
+    <!-- FORM LOGIN -->
+    <form class="space-y-5" method="POST">
+      <?php if ($error): ?>
+        <div class="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded">
+          <?php echo $error; ?>
+        </div>
+      <?php endif; ?>
+
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+        <input id="username" name="username" type="text" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-green-500 focus:border-green-500"
+          placeholder="Masukan Username">
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <input id="password" name="password" type="password" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:ring-green-500 focus:border-green-500"
+          placeholder="Masukan Password">
+      </div>
+
+      <button type="submit"
+        class="w-full bg-green-600 text-white py-2 rounded-md font-semibold hover:bg-green-700 transition">
+        Masuk
+      </button>
+    </form>
+  </div>
 </div>
+
+
 
 <?php include '../../includes/footer.php'; ?>
