@@ -20,10 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $database = new Database();
     $db = $database->getConnection();
     
-    $query = "SELECT u.*, j.nama_jabatan 
-              FROM user u 
-              JOIN jabatan j ON u.jabatan_id = j.id_jabatan 
-              WHERE u.username = :username AND u.password = :password";
+$query = "SELECT u.id_user, u.nama, u.username, u.divisi, u.angkatan, u.jabatan_id, j.nama_jabatan 
+          FROM user u 
+          JOIN jabatan j ON u.jabatan_id = j.id_jabatan 
+          WHERE u.username = :username AND u.password = :password";
+
     
     $stmt = $db->prepare($query);
     $stmt->bindParam(':username', $username);
@@ -33,15 +34,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->rowCount() > 0) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        $_SESSION['user_id'] = $user['id_user'];
-        $_SESSION['nama'] = $user['nama'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['jabatan'] = $user['nama_jabatan'];
-        $_SESSION['divisi'] = $user['divisi'];
-        
-        $is_admin = $user['nama_jabatan'] === 'Administrator';
-        header("Location: ../" . ($is_admin ? 'admin' : 'anggota') . "/dashboard.php");
-        exit();
+$_SESSION['user_id'] = $user['id_user'];
+$_SESSION['nama'] = $user['nama'];
+$_SESSION['username'] = $user['username'];
+$_SESSION['jabatan'] = $user['nama_jabatan'];
+$_SESSION['divisi'] = $user['divisi'];
+   $_SESSION['angkatan'] = $user['angkatan'];
+$_SESSION['jabatan_id'] = $user['jabatan_id'];
+
+if ($user['nama_jabatan'] === 'Administrator') {
+    header("Location: ../admin/dashboard.php");
+} elseif (in_array($user['jabatan_id'], [3,4,5,6])) {
+    // Pengurus
+    header("Location: ../pengurus/dashboard.php");
+} else {
+    // Anggota biasa
+    header("Location: ../anggota/dashboard.php");
+}
+exit();
+
     } else {
         $error = 'Username atau password salah!';
     }

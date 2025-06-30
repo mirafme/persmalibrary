@@ -1,7 +1,9 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
 $is_admin = isset($_SESSION['jabatan']) && $_SESSION['jabatan'] === 'Administrator';
+$is_pengurus = isset($_SESSION['jabatan_id']) && in_array($_SESSION['jabatan_id'], [3, 4, 5, 6]);
 ?>
+
 
 <div class="w-64 bg-white shadow-lg h-screen flex flex-col">
     <!-- Header -->
@@ -29,47 +31,51 @@ $is_admin = isset($_SESSION['jabatan']) && $_SESSION['jabatan'] === 'Administrat
                 <p class="text-sm font-medium text-gray-900 truncate">
                     <?php echo $_SESSION['nama']; ?>
                 </p>
-                <p class="text-xs text-gray-500">
-                    <?php echo $is_admin ? 'Administrator' : 'Anggota'; ?>
-                </p>
+<p class="text-xs text-gray-500">
+    <?php echo $_SESSION['jabatan']; ?>
+</p>
+
             </div>
         </div>
     </div>
 
     <!-- Navigation -->
-    <nav class="flex-1 p-4 space-y-2">
-        <?php if ($is_admin): ?>
-            <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
-                <i class="fas fa-home w-4 h-4 mr-3"></i>
-                Dashboard
-            </a>
-            <a href="kelola_buku.php" class="<?php echo ($current_page == 'kelola_buku.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
-                <i class="fas fa-book w-4 h-4 mr-3"></i>
-                Kelola Buku
-            </a>
-            <a href="kelola_peminjaman.php" class="<?php echo ($current_page == 'kelola_peminjaman.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
-                <i class="fas fa-users w-4 h-4 mr-3"></i>
-                Kelola Peminjaman
-            </a>
-            <a href="laporan_peminjaman.php" class="<?php echo ($current_page == 'laporan_peminjaman.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
-                <i class="fas fa-chart-bar w-4 h-4 mr-3"></i>
-                Laporan Peminjaman
-            </a>
-        <?php else: ?>
-            <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
-                <i class="fas fa-home w-4 h-4 mr-3"></i>
-                Dashboard
-            </a>
-            <a href="katalog.php" class="<?php echo ($current_page == 'katalog.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
-                <i class="fas fa-search w-4 h-4 mr-3"></i>
-                Katalog Buku
-            </a>
-            <a href="riwayat.php" class="<?php echo ($current_page == 'riwayat.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
-                <i class="fas fa-history w-4 h-4 mr-3"></i>
-                Riwayat Pinjam
-            </a>
-        <?php endif; ?>
-    </nav>
+<nav class="flex-1 p-4 space-y-2">
+    <?php if ($is_admin): ?>
+        <!-- Menu Admin -->
+        <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-home w-4 h-4 mr-3"></i> Dashboard
+        </a>
+        <a href="kelola_buku.php" class="<?php echo ($current_page == 'kelola_buku.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-book w-4 h-4 mr-3"></i> Kelola Buku
+        </a>
+        <a href="kelola_peminjaman.php" class="<?php echo ($current_page == 'kelola_peminjaman.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-users w-4 h-4 mr-3"></i> Kelola Peminjaman
+        </a>
+        <a href="laporan_peminjaman.php" class="<?php echo ($current_page == 'laporan_peminjaman.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-chart-bar w-4 h-4 mr-3"></i> Laporan Peminjaman
+        </a>
+    <?php elseif ($is_pengurus): ?>
+        <!-- Menu Pengurus -->
+        <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-home w-4 h-4 mr-3"></i> Dashboard
+        </a>
+        <a href="laporan_divisi.php" class="<?php echo ($current_page == 'laporan_divisi.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-chart-line w-4 h-4 mr-3"></i> Laporan Divisi
+        </a>
+    <?php else: ?>
+        <!-- Menu Anggota -->
+        <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-home w-4 h-4 mr-3"></i> Dashboard
+        </a>
+        <a href="katalog.php" class="<?php echo ($current_page == 'katalog.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-search w-4 h-4 mr-3"></i> Katalog Buku
+        </a>
+        <a href="riwayat.php" class="<?php echo ($current_page == 'riwayat.php') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-gray-100'; ?> flex items-center px-4 py-2 rounded-lg transition-colors">
+            <i class="fas fa-history w-4 h-4 mr-3"></i> Riwayat Pinjam
+        </a>
+    <?php endif; ?>
+</nav>
 
     <!-- Logout -->
     <div class="p-4 border-t border-gray-200">
